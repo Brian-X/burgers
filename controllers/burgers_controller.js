@@ -4,22 +4,29 @@ var router = express.Router();
 
 console.log("connected to controller")
 
+var burger = require("../models/burger.js");
 
-router.get("/", function(req, res) {
-  cat.all(function(data) {
-    var hbsObject = {
-      cats: data
-    };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
-  });
+// router.get("/", function(req, res) {
+//   burger.all(function(data) {
+//     var hbsObject = {
+//       burgers: data
+//     };
+//     console.log(hbsObject);
+//     res.render("index", hbsObject);
+//   });
+// });
+
+router.get("/", function(req,res) {
+  res.redirect("/burgers");
 });
 
+
+
 router.post("/", function(req, res) {
-  cat.create([
-    "name", "sleepy"
+  burger.create([
+    "name", "eaten"
   ], [
-    req.body.name, req.body.sleepy
+    req.body.name, req.body.eaten
   ], function() {
     res.redirect("/");
   });
@@ -30,8 +37,8 @@ router.put("/:id", function(req, res) {
 
   console.log("condition", condition);
 
-  cat.update({
-    sleepy: req.body.sleepy
+  burger.update({
+    eaten: req.body.eaten
   }, condition, function() {
     res.redirect("/");
   });
@@ -40,7 +47,7 @@ router.put("/:id", function(req, res) {
 router.delete("/:id", function(req, res) {
   var condition = "id = " + req.params.id;
 
-  cat.delete(condition, function() {
+  burger.delete(condition, function() {
     res.redirect("/");
   });
 });
