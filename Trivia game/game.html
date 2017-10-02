@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>trivia game</title>
+	<!-- <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css"> -->
+	<link rel="stylesheet" href="assets/css/styles.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<style>
+	.gamestart {
+		width: 150px;
+		height: 100px;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.center {
+		text-align: center;
+	}
+	</style>
+
+</head>
+
+<body>
+
+	
+	<div class="cento-header">
+		<!-- <div class="logo">
+			<img src="img/BE-UI-Design.png">
+		</div> -->
+
+		<div class="nav-wrap">
+			<h1 class="center">Trivia</h1>
+			<h2 class="center">Time Remaining:</h2><h2 class="center" id="show-number"></h2>
+			
+		</div>
+	</div>
+	
+
+
+	<div class="content">
+		<div>
+			<P>
+			Question 1
+				<fieldset>
+					<form>
+					  <input class="answer" type="radio" name="q1" value="1" checked><label id="correctString1"> one</label>
+					  <br>
+					  <input class="answer" type="radio" name="q1" value="0"> two
+					  <br>
+					  <input class="answer" type="radio" name="q1" value="0"> three  
+					</form>
+				</fieldset>
+			</P>
+
+			<P>
+			Question 2
+				<fieldset>
+					<form>
+					  <input class="answer" type="radio" name="q2" value="0" checked> one
+					  <br>
+					  <input class="answer" type="radio" name="q2" value="1"><label id="correctString2"> two</label>
+					  <br>
+					  <input class="answer" type="radio" name="q2" value="0"> three  
+					</form>
+				</fieldset>
+			</P>
+
+			<P>
+			Question 1
+				<fieldset>
+					<form>
+					  <input class="answer" type="radio" name="q3" value="0" checked> one
+					  <br>
+					  <input class="answer" type="radio" name="q3" value="0"> two
+					  <br>
+					  <input class="answer" type="radio" name="q3" value="1"><label id="correctString3"> three</label>  
+					</form>
+				</fieldset>
+			</P>
+
+			<div class="submitter">
+	          <input class="quizSubmit" id="submitButton" onClick="submitQuiz()"
+	          type="submit" value="Submit" />
+	    	</div>
+
+	    	<div>
+	    	<h2 class="quizScore" id="userScore"></h2>
+	    	</div>
+
+	    	<!--show only wrong answers on submit-->
+		    <div class="quizAnswers" id="correctAnswer1"></div>
+			<div class="quizAnswers" id="correctAnswer2"></div>
+		    <div class="quizAnswers" id="correctAnswer3"></div>
+	    
+
+		
+		</div>
+	</div>
+
+
+<script>
+
+
+	function submitQuiz() {
+	console.log('submitted');
+
+	// get each answer score
+		function answerScore (qName) {
+			var radiosNo = document.getElementsByName(qName);
+
+			for (var i = 0, length = radiosNo.length; i < length; i++) {
+   				if (radiosNo[i].checked) {
+			// do something with radiosNo
+					var answerValue = Number(radiosNo[i].value);
+				}
+			}
+			// change NaNs to zero
+			if (isNaN(answerValue)) {
+				answerValue = 0;
+			}
+			return answerValue;
+		}
+
+	// calc score with answerScore function
+		var calcScore = (answerScore('q1') + answerScore('q2') + answerScore('q3'));
+		console.log("CalcScore: " + calcScore); // it works!
+
+	// function to return correct answer string
+		function correctAnswer (correctStringNo, qNumber) {
+			console.log("qNumber: " + qNumber);  // logs 1,2,3,4 after called below
+			return ("The correct answer for question #" + qNumber + ": &nbsp;<strong>" +
+				(document.getElementById(correctStringNo).innerHTML) + "</strong>");
+			}
+
+	// print correct answers only if wrong (calls correctAnswer function)
+		if (answerScore('q1') === 0) {
+			document.getElementById('correctAnswer1').innerHTML = correctAnswer('correctString1', 1);
+		}
+		if (answerScore('q2') === 0) {
+			document.getElementById('correctAnswer2').innerHTML = correctAnswer('correctString2', 2);
+		}
+		if (answerScore('q3') === 0) {
+			document.getElementById('correctAnswer3').innerHTML = correctAnswer('correctString3', 3);
+		}
+		
+
+	// calculate "possible score" integer
+		var questionCountArray = document.getElementsByClassName('question');
+
+		var questionCounter = 0;
+		for (var i = 0, length = questionCountArray.length; i < length; i++) {
+			questionCounter++;
+		}
+
+	// show score as "score/possible score"
+		var showScore = "Your Score: " + calcScore + "/" + questionCounter;
+	// if 4/4, "perfect score!"
+		if (calcScore === questionCounter) {
+			showScore = showScore + "&nbsp; <strong>Perfect Score!</strong>"
+		};
+		document.getElementById('userScore').innerHTML = showScore;
+	}
+
+$(document).ready(function() {
+
+	$('#submitButton').click(function() {
+		$(this).addClass('hide');
+	});
+
+// });
+
+// $(document).ready(function() {
+	var number = 30;
+	$("#show-number").on("load", stop);
+
+		
+	var intervalId;
+
+	// $("#start").click(run);
+
+	function run() {
+
+   		intervalId = setInterval(decrement, 1000);
+  		$("#show-number").html("<h2>" + number + "</h2>");
+   	}
+
+    function decrement() {
+
+    //  Decrease number by one.
+	    number--;
+
+	    //  Show the number in the #show-number tag.
+	    $("#show-number").html("<h2>" + number + "</h2>");
+
+
+	    //  Once number hits zero...
+	    if (number === 0) {
+
+	        //  ...run the stop function.
+	        stop(submitQuiz());
+
+	        //  Alert the user that time is up.
+	        alert("Time Up!");
+	    
+	    }
+	}
+
+	function stop() {
+	    	
+	    //  Clears our intervalId
+	    //  We just pass the name of the interval
+	    //  to the clearInterval function.
+	clearInterval(intervalId);
+	}
+
+	    //  Execute the run function.
+	run();
+
+});
+
+</script>
+
+</body>
+
+
+</html>
