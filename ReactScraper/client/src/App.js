@@ -4,8 +4,8 @@ import Nav from "./components/Nav";
 
 const App = () => 
   <div>
-    <Nav />
-    <Books />
+    <components/Nav />
+    <components/Books />
   </div>;
 
 export default App;
