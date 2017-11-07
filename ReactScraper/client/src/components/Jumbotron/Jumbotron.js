@@ -1,8 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Jumbotron = ({ children }) =>
-  <div style={{ height: 300 }} className="jumbotron">
-    {children}
-  </div>;
+class Jumbotron extends Component {
+	render() {
+		return(
+		  <div style={{ height: 300 }} className="jumbotron">
+		  	<h1>NYT Articles</h1>
+		  </div>
+		)
+	};
+}
 
 export default Jumbotron;

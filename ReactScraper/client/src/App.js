@@ -1,11 +1,11 @@
 import React from "react";
-import Books from "./pages/Books";
+import Main from "./pages/Main";
 import Nav from "./components/Nav";
 
 const App = () => 
   <div>
-    <components/Nav />
-    <components/Books />
+    <Nav />
+    <Main />
   </div>;
 
 export default App;
